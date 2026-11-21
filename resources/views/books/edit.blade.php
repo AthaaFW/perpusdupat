@@ -73,6 +73,13 @@
                     <input type="number" name="publication_year" id="publication_year" value="{{ old('publication_year', $book->publication_year) }}" min="1800" max="{{ date('Y') + 1 }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition">
                 </div>
 
+                <!-- Page Count -->
+                <div>
+                    <label for="jumlah_halaman" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Jumlah Halaman</label>
+                    <input type="number" name="jumlah_halaman" id="jumlah_halaman" value="{{ old('jumlah_halaman', $book->jumlah_halaman) }}" min="1" max="99999" placeholder="Contoh: 350" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition @error('jumlah_halaman') border-rose-500 @enderror">
+                    @error('jumlah_halaman') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                </div>
+
                 <!-- Rack Location -->
                 <div>
                     <label for="rack_location" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Lokasi Rak Simpan</label>
@@ -85,6 +92,13 @@
                     <input type="number" name="total_stock" id="total_stock" value="{{ old('total_stock', $book->total_stock) }}" min="0" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition @error('total_stock') border-rose-500 @enderror">
                     <p class="text-[11px] text-slate-400 mt-1">Stok tersedia saat ini: {{ $book->available_stock }} eksemplar.</p>
                     @error('total_stock') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Sinopsis -->
+                <div class="sm:col-span-2">
+                    <label for="sinopsis" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Sinopsis Buku</label>
+                    <textarea name="sinopsis" id="sinopsis" rows="4" placeholder="Tuliskan ringkasan atau sinopsis buku..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition @error('sinopsis') border-rose-500 @enderror">{{ old('sinopsis', $book->sinopsis) }}</textarea>
+                    @error('sinopsis') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Cover Image Upload -->

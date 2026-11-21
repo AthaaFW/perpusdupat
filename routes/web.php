@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KioskController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\LoanReceiptController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/visits/export', [VisitController::class, 'export'])->name('visits.export');
         Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
         Route::post('/loans/{loan}/approve', [LoanController::class, 'approve'])->name('loans.approve');
+        Route::post('/loans/{loan}/reject', [LoanController::class, 'reject'])->name('loans.reject');
         Route::post('/loans/{loan}/return', [LoanController::class, 'returnBook'])->name('loans.return');
         Route::get('/loans/export', [LoanController::class, 'export'])->name('loans.export');
 
@@ -55,6 +58,7 @@ Route::middleware('auth')->group(function () {
 
         // Visits
         Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+
     });
 
     Route::middleware('role:murid')->group(function () {
@@ -68,4 +72,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/books/{book}', [CartController::class, 'add'])->name('add');
+        Route::delete('/books/{book}', [CartController::class, 'remove'])->name('remove');
+        Route::delete('/', [CartController::class, 'clear'])->name('clear');
+    });
+
+    Route::get('/loan-receipts/{receipt}', [LoanReceiptController::class, 'show'])->name('loan-receipts.show');
+    Route::post('/loan-receipts/{receipt}/approve', [LoanReceiptController::class, 'approve'])->name('loan-receipts.approve');
+    Route::post('/loan-receipts/{receipt}/reject', [LoanReceiptController::class, 'reject'])->name('loan-receipts.reject');
+    Route::post('/loan-receipts/{receipt}/return', [LoanReceiptController::class, 'returnAll'])->name('loan-receipts.return');
 });
